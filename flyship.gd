@@ -10,7 +10,7 @@ var shipVelocity = Vector2(0,0)
 const THRUST_SPEED = 100
 const ROTATE_SPEED = 2
 const ACCEL_RATE = 0.01
-const MAX_VELOCITY = 100
+const MAX_VELOCITY = 10
 
 func _ready():
 	# Called every time the node is added to the scene.
@@ -33,8 +33,13 @@ func _process(delta):
 		
 		shipVelocity.x += -sin(get_node("ship").get_rot()) * THRUST_SPEED * delta * accel
 		shipVelocity.y += -cos(get_node("ship").get_rot()) * THRUST_SPEED * delta * accel
-		#shipVelocity.x = min(shipVelocity.x, MAX_VELOCITY)
-		#shipVelocity.y = min(shipVelocity.y, MAX_VELOCITY)
+		
+		#cap maximum velocity
+		shipVelocity.x = min(shipVelocity.x, MAX_VELOCITY)
+		shipVelocity.x = max(shipVelocity.x, -MAX_VELOCITY)
+		shipVelocity.y = min(shipVelocity.y, MAX_VELOCITY)
+		shipVelocity.y = max(shipVelocity.y, -MAX_VELOCITY)
+		shipVelocity.normalized()
 	else :
 		accel = 0
 	
